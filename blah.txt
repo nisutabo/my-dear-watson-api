@@ -1,0 +1,103 @@
+`Kurt Vonnegut said semicolons represent absolutely nothing and only show you’ve been to college. Does that mean they’re used by the CS grads to oppress us rogue bootcamp students? Is the ruling class really just using JavaScript semicolons to prevent us from getting jobs?
+
+
+But seriously: why do I need to put semicolons after each line of my JavaScript code? What’s the deal here?
+
+As with most contemporary tales, my adventure started with a google search quickly followed by aggressive internet strangers.
+
+I found insightful feedback such as:
+
+“Just use them.”
+or:
+
+PUT IN THE [CENSORED] SEMICOLONS!!!
+Luckily, for each troll programmer, there seems to be another thoughtful, nurturing one. Or perhaps every programmer just has two accounts. Whatever.
+
+Anyway, here’s the deal:
+
+When we do not apply semicolons ourselves, Automatic Semicolon Insertion (ASI) does it for us.
+
+ECMAScript has three verbose rules for ASI, in fact. The gist of which is roughly summarized on this archived Mozilla resource, as so:
+
+If the first through the nth tokens of a JavaScript program form are grammatically valid but the first through the n+1st tokens are not and there is a line break between the nth tokens and the n+1st tokens, then the parser tries to parse the program again after inserting a virtual semicolon token between the nth and the n+1st tokens.
+Simply put:
+
+const a = 1
+const b = a
+Becomes something like:
+
+const a = 1;
+const b = a;
+What’s the point?
+
+Semicolons serve as statement separators for compiled JavaScript code.
+
+And why do we need to separate statements in our JavaScript?
+
+Well, this is where we have issues:
+
+const a = 1
+const b = a
+[1, 2, 3].forEach((e) => console.log(e))
+Most would expect this code to log out 1, 2, and 3, respectively, to the console; however, instead, this is what we receive:
+
+TypeError: Cannot read property 'forEach' of undefined
+
+Weird.
+
+So now with semicolons:
+
+const a = 1;
+const b = a;
+[1, 2, 3].forEach((e) => console.log(e));
+1
+2
+3
+=> undefined
+What gives?
+
+Well if our previous error was:
+
+TypeError: Cannot read property 'forEach' of undefined
+Our code was breaking because the array we very clearly stated was somehow undefined. How could a manually placed semicolon on the line previous affect this?
+
+What then is our ASI really doing? Or rather what is our ASI not doing?
+
+
+If our placing a semicolon there changes our result, then clearly ASI wasn’t placing one between these two lines on it’s own:
+
+const b = a
+[1, 2, 3].forEach((e) => console.log(e))
+So, if we imagine our code all compiled, these two lines presumably would look something like:
+
+constb=a[1, 2, 3].forEach((e)=>console.log(e));
+Wait, let’s look at our problem area a little more closely:
+
+... a[1, 2, 3] ...
+It would seem without the semicolon separating these statements, the compiled code treats our variable a as an array with some form of bracket notation proceeding it. Afterwards, forEach() is called on an undefined array.
+
+Interesting. So what else should we look out for?
+
+The ECMAScript specifications offer some other examples, and here are some more common “gotchas”:
+
+return
+a + b
+Becomes:
+
+return;
+a + b;
+Causing a function to return undefined because ASI separated the return on the next line with semicolon, effectively cutting it off.
+
+Another:
+
+a = b
+++c
+Becomes:
+
+a = b;
+++c;
+Meaning if the “++” operator was two increment the value of b and not the value of c, ASI would have you mistaken.
+
+Ultimately, yeah, most semicolons we will use in JavaScript are superfluous in thanks to ASI, but the habit will save us time handling tricky bugs. There is a reason programmers cling to convention, even if it matters only some of the time.
+
+So, welcome to the cult; just use them.`
