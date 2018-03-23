@@ -1,2 +1,0 @@
-class WatsonResponsesController < ApplicationController
-end
