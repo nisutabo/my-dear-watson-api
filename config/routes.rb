@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :word_counts
+  resources :consumption_preferences
+  resources :values
+  resources :needs
+  resources :personalities
   resources :watson_responses
   resources :text_inputs
   resources :users
