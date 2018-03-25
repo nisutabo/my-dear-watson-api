@@ -19,11 +19,11 @@ drake = TwitterAccount.create(handle: 'Drake')
 seeds = [trump, obama, bieber, selena, cristiano, rihanna, tswift, kylie, gates, drake]
 
 seeds.each do |user|
-  twitter_handler = TwitterApiController.new(user.handle)
-  input = twitter_handler.user_tweets
+  twitter_handler = Api::V1::TwitterApiController.new
+  input = twitter_handler.get_tweet_text(user.handle)
 
-  watson_handler = WatsonApiController.new(input)
-  analysis = watson_handler.analyze_personality
+  watson_handler = Api::V1::WatsonApiController.new
+  analysis = watson_handler.analyze_personality(input)
 
   words = user.build_word_count(analysis[:word_count])
   words.save

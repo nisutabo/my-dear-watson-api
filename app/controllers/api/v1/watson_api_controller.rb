@@ -1,16 +1,15 @@
 class Api::V1::WatsonApiController < ApplicationController
-  attr_accessor :url, :username, :password, :input
+  attr_accessor :url, :username, :password
 
-  def initialize(input)
+  def initialize
     @url = "https://gateway.watsonplatform.net/personality-insights/api"
     @username = ENV["WATSON_USER"]
     @password = ENV["WATSON_PASSWORD"]
-    @input = input
    end
 
-  def get_data
+  def get_data(input)
     response = Excon.post(@url + "/v3/profile",
-    :body     => @input,
+    :body     => input,
     :headers  => {
       "Content-Type"            => "text/plain",
       "Content-Language"        => "en",
@@ -96,10 +95,10 @@ class Api::V1::WatsonApiController < ApplicationController
     result
   end
 
-  def analyze_personality
+  def analyze_personality(input)
     result = {}
 
-    raw_data = JSON.parse(self.get_data)
+    raw_data = JSON.parse(self.get_data(input))
 
     result[:word_count]             = {
                                       word_count: raw_data['word_count'].to_i,
