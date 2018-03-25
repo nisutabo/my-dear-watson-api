@@ -2,17 +2,17 @@ class CreateConsumptionPreferences < ActiveRecord::Migration[5.1]
   def change
     create_table :consumption_preferences do |t|
       t.integer :twitter_account_id
-  
-      t.integer :likely_to_be_sensitive_to_ownership_cost_when_buying_automobiles
+
+      t.integer :"likely_to_be_sensitive_to_ownership_cost_when_buying_auto..."
       t.integer :likely_to_prefer_safety_when_buying_automobiles
       t.integer :likely_to_prefer_quality_when_buying_clothes
       t.integer :likely_to_prefer_style_when_buying_clothes
       t.integer :likely_to_prefer_comfort_when_buying_clothes
-      t.integer :likely_to_be_influenced_by_brand_name_when_making_product_purchases
-      t.integer :likely_to_be_influenced_by_product_utility_when_making_product_purchases
-      t.integer :likely_to_be_influenced_by_online_ads_when_making_product_purchases
-      t.integer :likely_to_be_influenced_by_social_media_when_making_product_purchases
-      t.integer :likely_to_be_influenced_by_family_when_making_product_purchases
+      t.integer :"likely_to_be_influenced_by_brand_name_when_making_product..."
+      t.integer :"likely_to_be_influenced_by_product_utility_when_making_pr..."
+      t.integer :"likely_to_be_influenced_by_online_ads_when_making_product..."
+      t.integer :"likely_to_be_influenced_by_social_media_when_making_produ..."
+      t.integer :"likely_to_be_influenced_by_family_when_making_product_pur..."
       t.integer :likely_to_indulge_in_spur_of_the_moment_purchases
       t.integer :likely_to_prefer_using_credit_cards_for_shopping
       t.integer :likely_to_eat_out_frequently

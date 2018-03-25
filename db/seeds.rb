@@ -5,3 +5,38 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+trump = TwitterAccount.create(handle: 'realDonaldTrump')
+obama = TwitterAccount.create(handle: 'BarackObama')
+bieber = TwitterAccount.create(handle: 'justinbieber')
+selena = TwitterAccount.create(handle: 'selenagomez')
+cristiano = TwitterAccount.create(handle: 'Cristiano')
+rihanna = TwitterAccount.create(handle: 'rihanna')
+tswift = TwitterAccount.create(handle: 'taylorswift13')
+kylie = TwitterAccount.create(handle: 'KylieJenner')
+gates = TwitterAccount.create(handle: 'BillGates')
+drake = TwitterAccount.create(handle: 'Drake')
+
+seeds = [trump, obama, bieber, selena, cristiano, rihanna, tswift, kylie, gates, drake]
+
+seeds.each do |user|
+  twitter_handler = TwitterApiController.new(user.handle)
+  input = twitter_handler.user_tweets
+
+  watson_handler = WatsonApiController.new(input)
+  analysis = watson_handler.analyze_personality
+
+  words = user.build_word_count(analysis[:word_count])
+  words.save
+
+  personality = user.build_personality(analysis[:personality])
+  personality.save
+
+  needs = user.build_need(analysis[:need])
+  needs.save
+
+  values = user.build_value(analysis[:value])
+  values.save
+
+  consumption = user.build_consumption_preference(analysis[:consumption_preference])
+  consumption.save
+end

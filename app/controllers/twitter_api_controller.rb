@@ -14,11 +14,12 @@ class TwitterApiController < ApplicationController
 
  def user_tweets
    tweets = []
+
    begin
-   twitter_result = @@client.user_timeline(@twitter_handle, options = {count: 200})
-   twitter_result.each do |tweet|
-     tweets << tweet.text
-   end
+     twitter_result = @@client.user_timeline(@twitter_handle, options = {count: 200})
+     twitter_result.each do |tweet|
+       tweets << tweet.text
+     end
    rescue Twitter::Error
    end
 
