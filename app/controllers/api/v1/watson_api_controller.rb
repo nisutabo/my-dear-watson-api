@@ -95,7 +95,7 @@ class Api::V1::WatsonApiController < ApplicationController
     result
   end
 
-  def analyze_traits(input)
+  def analyze(input)
     result = {}
 
     raw_data = JSON.parse(self.get_data(input))

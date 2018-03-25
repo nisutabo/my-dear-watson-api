@@ -25,7 +25,7 @@ seed_twitter_handles.each do |twitter_handle|
   input = twitter_controller.get_tweet_text(account.handle)
 
   watson_controller = Api::V1::WatsonApiController.new
-  analysis = watson_controller.analyze_traits(input)
+  analysis = watson_controller.analyze(input)
 
   word_counts = user.build_word_count(analysis[:word_count])
   word_counts.save
