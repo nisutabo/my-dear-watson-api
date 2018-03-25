@@ -1,4 +1,4 @@
-class WatsonApiController < ApplicationController
+class Api::V1::WatsonApiController < ApplicationController
   attr_accessor :url, :username, :password, :input
 
   def initialize(input)

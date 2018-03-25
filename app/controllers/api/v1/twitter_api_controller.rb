@@ -1,4 +1,4 @@
-class TwitterApiController < ApplicationController
+class Api::V1::TwitterApiController < ApplicationController
   attr_accessor :twitter_handle
 
   @@client = Twitter::REST::Client.new do |config|
