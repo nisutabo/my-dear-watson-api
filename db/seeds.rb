@@ -5,31 +5,33 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-trump = TwitterAccount.create(handle: 'realDonaldTrump')
-obama = TwitterAccount.create(handle: 'BarackObama')
-bieber = TwitterAccount.create(handle: 'justinbieber')
-selena = TwitterAccount.create(handle: 'selenagomez')
-cristiano = TwitterAccount.create(handle: 'Cristiano')
-rihanna = TwitterAccount.create(handle: 'rihanna')
-tswift = TwitterAccount.create(handle: 'taylorswift13')
-kylie = TwitterAccount.create(handle: 'KylieJenner')
-gates = TwitterAccount.create(handle: 'BillGates')
-drake = TwitterAccount.create(handle: 'Drake')
+seed_twitter_handles = [
+  'realDonaldTrump',
+  'BarackObama',
+  'justinbieber',
+  'selenagomez',
+  'Cristiano',
+  'rihanna',
+  'taylorswift13',
+  'KylieJenner',
+  'BillGates',
+  'Drake'
+]
 
-seeds = [trump, obama, bieber, selena, cristiano, rihanna, tswift, kylie, gates, drake]
+seed_twitter_handles.each do |twitter_handle|
+  account = TwitterAccount.create(handle: twitter_handle)
 
-seeds.each do |user|
-  twitter_handler = Api::V1::TwitterApiController.new
-  input = twitter_handler.get_tweet_text(user.handle)
+  twitter_controller = Api::V1::TwitterApiController.new
+  input = twitter_controller.get_tweet_text(account.handle)
 
-  watson_handler = Api::V1::WatsonApiController.new
-  analysis = watson_handler.analyze_personality(input)
+  watson_controller = Api::V1::WatsonApiController.new
+  analysis = watson_controller.analyze_personality(input)
 
-  words = user.build_word_count(analysis[:word_count])
-  words.save
+  word_counts = user.build_word_count(analysis[:word_count])
+  word_counts.save
 
-  personality = user.build_personality(analysis[:personality])
-  personality.save
+  personalities = user.build_personality(analysis[:personality])
+  personalities.save
 
   needs = user.build_need(analysis[:need])
   needs.save
@@ -37,6 +39,6 @@ seeds.each do |user|
   values = user.build_value(analysis[:value])
   values.save
 
-  consumption = user.build_consumption_preference(analysis[:consumption_preference])
-  consumption.save
+  consumption_preferences = user.build_consumption_preference(analysis[:consumption_preference])
+  consumption_preferences.save
 end
