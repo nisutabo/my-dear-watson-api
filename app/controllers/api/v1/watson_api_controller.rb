@@ -5,7 +5,7 @@ class Api::V1::WatsonApiController < ApplicationController
     @url = "https://gateway.watsonplatform.net/personality-insights/api"
     @username = ENV["WATSON_USER"]
     @password = ENV["WATSON_PASSWORD"]
-   end
+  end
 
   def get_data(input)
     response = Excon.post(@url + "/v3/profile",
@@ -100,15 +100,19 @@ class Api::V1::WatsonApiController < ApplicationController
 
     raw_data = JSON.parse(self.get_data(input))
 
-    result[:word_count]             = {
-                                      word_count: raw_data['word_count'].to_i,
-                                      word_count_message: raw_data['word_count_message']
-                                      }
-    result[:personality]            = self.parse_personality(raw_data['personality'])
-    result[:need]                   = self.parse_needs(raw_data['needs'])
-    result[:value]                  = self.parse_values(raw_data['values'])
-    result[:consumption_preference] = self.parse_consumption_preferences(raw_data['consumption_preferences'])
+    if raw_data['code'] == 400
+      return raw_data['error']
+    else
+      result[:word_count]             = {
+                                        word_count: raw_data['word_count'].to_i,
+                                        word_count_message: raw_data['word_count_message']
+                                        }
+      result[:personality]            = self.parse_personality(raw_data['personality'])
+      result[:need]                   = self.parse_needs(raw_data['needs'])
+      result[:value]                  = self.parse_values(raw_data['values'])
+      result[:consumption_preference] = self.parse_consumption_preferences(raw_data['consumption_preferences'])
 
-    result
+      return result
+    end
   end
 end
