@@ -5,8 +5,8 @@ class Api::V1::PersonalitiesController < ApplicationController
     render json: @personalities
   end
 
-  def show
-    @personality = Personality.find(params[:id])
+  def personality
+    @personality = Personality.find_by(twitter_account_id: params["twitter_account_id"])
     render json: @personality
   end
 end

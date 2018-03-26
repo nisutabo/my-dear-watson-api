@@ -5,8 +5,8 @@ class Api::V1::WordCountsController < ApplicationController
     render json: @word_counts
   end
 
-  def show
-    @word_count = WordCount.find(params[:id])
+  def word_count
+    @word_count = WordCount.find_by(twitter_account_id: params["twitter_account_id"])
     render json: @word_count
   end
 end

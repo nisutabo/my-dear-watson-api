@@ -5,8 +5,8 @@ class Api::V1::ConsumptionPreferencesController < ApplicationController
     render json: @consumption_preferences
   end
 
-  def show
-    @consumption_preference = ConsumptionPreference.find(params[:id])
+  def consumption_preference
+    @consumption_preference = ConsumptionPreference.find_by(twitter_account_id: params["twitter_account_id"])
     render json: @consumption_preference
   end
 end

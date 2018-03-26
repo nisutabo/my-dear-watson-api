@@ -5,8 +5,8 @@ class Api::V1::NeedsController < ApplicationController
     render json: @needs
   end
 
-  def show
-    @need = Need.find(params[:id])
+  def need
+    @need = Need.find_by(twitter_account_id: params["twitter_account_id"])
     render json: @need
   end
 end

@@ -42,10 +42,10 @@ class Api::V1::TwitterAccountsController < ApplicationController
           return render json: {errors: @account.errors.full_messages}, status: 422
         end
       else
-        return render json: {"#{analysis}"}, status: 422
+        return render json: analysis, status: 422
       end
     else
-      return render json: {"Please confirm this twitter handle has any tweets"}, status: 422
+      return render json: "Please confirm this twitter handle has any tweets", status: 422
     end
   end
 
@@ -63,7 +63,8 @@ class Api::V1::TwitterAccountsController < ApplicationController
   def destroy
     @account = TwitterAccount.find(params[:id])
     @account.destroy
-    render index # fix
+    @accounts = TwitterAccount.all
+    render json: @accounts
   end
 
   private

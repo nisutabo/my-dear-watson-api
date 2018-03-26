@@ -5,8 +5,8 @@ class Api::V1::ValuesController < ApplicationController
     render json: @values
   end
 
-  def show
-    @value = Value.find(params[:id])
+  def value
+    @value = Value.find_by(twitter_account_id: params["twitter_account_id"])
     render json: @value
   end
 end
