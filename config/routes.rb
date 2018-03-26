@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :consumption_preferences, only: [:index]
       resources :values, only: [:index]
       resources :needs, only: [:index]
-      resources :personalities, only: [:index, :personality]
+      resources :personalities, only: [:index]
       resources :twitter_accounts do
         get '/word_count', to: 'word_counts#word_count'
         get '/consumption_preference', to: 'consumption_preferences#consumption_preference'
