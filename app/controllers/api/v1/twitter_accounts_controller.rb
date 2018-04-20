@@ -22,19 +22,19 @@ class Api::V1::TwitterAccountsController < ApplicationController
 
       if !analysis.kind_of?(String)
         if @account.save
-          word_counts = user.build_word_count(analysis[:word_count])
+          word_counts = @account.build_word_count(analysis[:word_count])
           word_counts.save
 
-          personalities = user.build_personality(analysis[:personality])
+          personalities = @account.build_personality(analysis[:personality])
           personalities.save
 
-          needs = user.build_need(analysis[:need])
+          needs = @account.build_need(analysis[:need])
           needs.save
 
-          values = user.build_value(analysis[:value])
+          values = @account.build_value(analysis[:value])
           values.save
 
-          consumption_preferences = user.build_consumption_preference(analysis[:consumption_preference])
+          consumption_preferences = @account.build_consumption_preference(analysis[:consumption_preference])
           consumption_preferences.save
 
           return render json: @account
@@ -45,7 +45,7 @@ class Api::V1::TwitterAccountsController < ApplicationController
         return render json: analysis, status: 422
       end
     else
-      return render json: "Please confirm this twitter handle has any tweets", status: 422
+      return render json: {errors: ["Please confirm this twitter handle has any tweets"]}, status: 422
     end
   end
 
