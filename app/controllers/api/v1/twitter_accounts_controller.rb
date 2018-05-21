@@ -5,9 +5,28 @@ class Api::V1::TwitterAccountsController < ApplicationController
     render json: @accounts
   end
 
+
   def show
     @account = TwitterAccount.find(params[:id])
-    render json: @account
+    @personality = Personality.find(params[:id])
+    @needs = Need.find(params[:id])
+    @values = Value.find(params[:id])
+    @consumption_preferences = ConsumptionPreference.find(params[:id])
+
+    twitter_controller = Api::V1::TwitterApiController.new
+    @image_url = twitter_controller.get_avatar(@account.handle)
+    
+
+
+    @account
+    render json: {
+      account: @account,
+      personality: @personality,
+      needs: @needs,
+      values: @values,
+      consumption_preferences: @consumption_preferences,
+      avatar: @image_url
+    }
   end
 
   def create
@@ -37,15 +56,16 @@ class Api::V1::TwitterAccountsController < ApplicationController
           consumption_preferences = @account.build_consumption_preference(analysis[:consumption_preference])
           consumption_preferences.save
 
-          return render json: @account
+          return render json: {account: @account, personality: analysis[:personality], needs: analysis[:need],
+                               values: analysis[:value], consumption_preferences: analysis[:consumption_preference]}
         else
-          return render json: {errors: @account.errors.full_messages}, status: 422
+          return render json: {errors: "Please confirm this twitter handle has any tweets"}, status: 422
         end
       else
-        return render json: analysis, status: 422
+        return render json: {errors: "Please confirm this twitter handle has any tweets"}, status: 422
       end
     else
-      return render json: {errors: ["Please confirm this twitter handle has any tweets"]}, status: 422
+      return render json: {errors: "Please confirm this twitter handle has any tweets"}, status: 422
     end
   end
 

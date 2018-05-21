@@ -3,8 +3,8 @@ class Api::V1::WatsonApiController < ApplicationController
 
   def initialize
     @url = "https://gateway.watsonplatform.net/personality-insights/api"
-    @username = ENV["WATSON_USER"]
-    @password = ENV["WATSON_PASSWORD"]
+    @username = "8cafaaca-078c-4a04-9284-fc18e5aee509"
+    @password = "PIg0Uu6vngsp"
   end
 
   def get_data(input)

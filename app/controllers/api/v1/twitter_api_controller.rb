@@ -1,9 +1,9 @@
 class Api::V1::TwitterApiController < ApplicationController
   @@client = Twitter::REST::Client.new do |config|
-    config.consumer_key = ENV["TWITTER_CONSUMER_KEY"]
-    config.consumer_secret = ENV["TWITTER_CONSUMER_SECRET"]
-    config.access_token = ENV["TWITTER_ACCESS_TOKEN"]
-    config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
+    config.consumer_key = 	'cFWUdb6jEPne5tifWbQXAbvaJ'
+    config.consumer_secret = 'wAxzbm1ZfGlq0WsarQCZHXCKiXsTih4UWo3YU2gtKKnCFJhjys'
+    config.access_token = '2997557823-UJTvgRfWjwzBaowKwPNjH9JtApksambKgoB9hgO'
+    config.access_token_secret = '852KWEqWxZAj5CHMTx7NgJvN1Vc1iRGB4a64jZgjR26IB'
   end
 
  def get_tweet_text(twitter_handle) # e.g. 'realDonaldTrump'
@@ -18,5 +18,10 @@ class Api::V1::TwitterApiController < ApplicationController
    end
 
    tweets.join(" ")
+ end
+
+ def get_avatar(twitter_handle)
+  tweets = @@client.user_timeline(twitter_handle)
+  tweets[0].user.profile_image_uri(size = :bigger)
  end
 end
